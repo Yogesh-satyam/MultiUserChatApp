@@ -9,6 +9,8 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import javax.swing.*;
 
+
+
 /**
  * @author Yogesh Satyam
  */
@@ -23,13 +25,15 @@ public class UserScreen extends JFrame {
     public static void main(String[] args) {
         UserScreen window = new UserScreen();
     }
+
     UserDAO userDAO=new UserDAO();
+
     private void doLogin(){
         String userid=useridtxt.getText();
         char[] password=passwordField1.getPassword();
         UserDTO userDTO=new UserDTO(userid,password);
         try {
-            String message="";
+            String message;
             if(userDAO.isLogin(userDTO)) {
                 message = "Welcome " + userid;
                 JOptionPane.showMessageDialog(this,message);
@@ -42,19 +46,18 @@ public class UserScreen extends JFrame {
                 JOptionPane.showMessageDialog(this,message);
             }
  //           JOptionPane.showMessageDialog(this,message);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+        } catch (SQLException | ClassNotFoundException | NoSuchAlgorithmException throwable) {
+            throwable.printStackTrace();
         }
     }
     private void register(){
-        String userid=useridtxt.getText();
+        String userid=useridtxt.getText(),email=emailtxt.getText(),mobile=mobiletxt.getText(),city=citytxt.getText();
         char[] password=passwordField1.getPassword();
-
-        UserDTO userDTO=new UserDTO(userid,password);
+        if(userid.equals("")||(new String(password).equals(""))||mobile.equals("")) {
+            JOptionPane.showMessageDialog(this, "Please Fill The Form To Register");
+            return;
+        }
+        UserDTO userDTO=new UserDTO(userid,password,email,mobile,city);
         try {
             int result=userDAO.add(userDTO);
             if(result>0) {
@@ -74,6 +77,14 @@ public class UserScreen extends JFrame {
         }
     }
 
+    private void clearFields(){
+        useridtxt.setText(null);
+        passwordField1.setText(null);
+        emailtxt.setText(null);
+        mobiletxt.setText(null);
+        citytxt.setText(null);
+    }
+
     private void registerbtn(ActionEvent e) {
         register();
     }
@@ -81,6 +92,18 @@ public class UserScreen extends JFrame {
     private void loginbtn(ActionEvent e) {
         doLogin();
     }
+
+    private void clearbtn(ActionEvent e) {
+        clearFields();
+    }
+
+    private void changepwdbtn(ActionEvent e) {
+        dispose();
+        ChangePassword changePassword=new ChangePassword();
+        changePassword.setVisible(true);
+    }
+
+
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
@@ -92,6 +115,14 @@ public class UserScreen extends JFrame {
         loginbtn = new JButton();
         registerbtn = new JButton();
         passwordField1 = new JPasswordField();
+        emaillbl = new JLabel();
+        emailtxt = new JTextField();
+        mobilelbl = new JLabel();
+        mobiletxt = new JTextField();
+        citylbl = new JLabel();
+        citytxt = new JTextField();
+        clearbtn = new JButton();
+        changepwdbtn = new JButton();
 
         //======== this ========
         setTitle("LOGIN");
@@ -106,22 +137,22 @@ public class UserScreen extends JFrame {
         label1.setHorizontalAlignment(SwingConstants.CENTER);
         label1.setFont(new Font(Font.DIALOG, Font.BOLD, 40));
         contentPane.add(label1);
-        label1.setBounds(190, 20, 166, 40);
+        label1.setBounds(300, 20, 166, 40);
         contentPane.add(useridtxt);
-        useridtxt.setBounds(275, 95, 235, 35);
+        useridtxt.setBounds(215, 95, 235, 35);
 
         //---- useridlbl ----
         useridlbl.setText("Userid");
         useridlbl.setFont(useridlbl.getFont().deriveFont(useridlbl.getFont().getStyle() | Font.BOLD, useridlbl.getFont().getSize() + 12f));
         useridlbl.setLabelFor(useridtxt);
         contentPane.add(useridlbl);
-        useridlbl.setBounds(75, 100, 110, 35);
+        useridlbl.setBounds(15, 100, 110, 35);
 
         //---- pswdlbl ----
         pswdlbl.setText("Password");
         pswdlbl.setFont(pswdlbl.getFont().deriveFont(pswdlbl.getFont().getStyle() | Font.BOLD, pswdlbl.getFont().getSize() + 12f));
         contentPane.add(pswdlbl);
-        pswdlbl.setBounds(75, 160, 140, 35);
+        pswdlbl.setBounds(15, 155, 140, 35);
 
         //---- loginbtn ----
         loginbtn.setText("Login");
@@ -129,7 +160,7 @@ public class UserScreen extends JFrame {
         loginbtn.setFocusPainted(false);
         loginbtn.addActionListener(e -> loginbtn(e));
         contentPane.add(loginbtn);
-        loginbtn.setBounds(120, 255, 110, 40);
+        loginbtn.setBounds(235, 415, 110, 40);
 
         //---- registerbtn ----
         registerbtn.setText("Register");
@@ -137,9 +168,50 @@ public class UserScreen extends JFrame {
         registerbtn.setFocusPainted(false);
         registerbtn.addActionListener(e -> registerbtn(e));
         contentPane.add(registerbtn);
-        registerbtn.setBounds(265, 255, 155, 40);
+        registerbtn.setBounds(50, 415, 155, 40);
         contentPane.add(passwordField1);
-        passwordField1.setBounds(275, 160, 235, 35);
+        passwordField1.setBounds(215, 155, 235, 35);
+
+        //---- emaillbl ----
+        emaillbl.setText("E-mail");
+        emaillbl.setFont(emaillbl.getFont().deriveFont(emaillbl.getFont().getStyle() | Font.BOLD, emaillbl.getFont().getSize() + 12f));
+        emaillbl.setLabelFor(emailtxt);
+        contentPane.add(emaillbl);
+        emaillbl.setBounds(15, 220, 110, 35);
+        contentPane.add(emailtxt);
+        emailtxt.setBounds(215, 215, 235, 35);
+
+        //---- mobilelbl ----
+        mobilelbl.setText("Mobile No.");
+        mobilelbl.setFont(mobilelbl.getFont().deriveFont(mobilelbl.getFont().getStyle() | Font.BOLD, mobilelbl.getFont().getSize() + 12f));
+        mobilelbl.setLabelFor(mobiletxt);
+        contentPane.add(mobilelbl);
+        mobilelbl.setBounds(15, 280, 140, 35);
+        contentPane.add(mobiletxt);
+        mobiletxt.setBounds(215, 275, 235, 35);
+
+        //---- citylbl ----
+        citylbl.setText("City");
+        citylbl.setFont(citylbl.getFont().deriveFont(citylbl.getFont().getStyle() | Font.BOLD, citylbl.getFont().getSize() + 12f));
+        citylbl.setLabelFor(citytxt);
+        contentPane.add(citylbl);
+        citylbl.setBounds(15, 335, 140, 35);
+        contentPane.add(citytxt);
+        citytxt.setBounds(215, 335, 235, 35);
+
+        //---- clearbtn ----
+        clearbtn.setText("Clear");
+        clearbtn.setFont(clearbtn.getFont().deriveFont(clearbtn.getFont().getStyle() | Font.BOLD, clearbtn.getFont().getSize() + 12f));
+        clearbtn.setFocusPainted(false);
+        clearbtn.addActionListener(e -> clearbtn(e));
+        contentPane.add(clearbtn);
+        clearbtn.setBounds(380, 415, 110, 40);
+
+        //---- changepwdbtn ----
+        changepwdbtn.setText("Change Password");
+        changepwdbtn.addActionListener(e -> changepwdbtn(e));
+        contentPane.add(changepwdbtn);
+        changepwdbtn.setBounds(575, 185, 140, changepwdbtn.getPreferredSize().height);
 
         {
             // compute preferred size
@@ -155,7 +227,7 @@ public class UserScreen extends JFrame {
             contentPane.setMinimumSize(preferredSize);
             contentPane.setPreferredSize(preferredSize);
         }
-        setSize(580, 365);
+        setSize(765, 505);
         setLocationRelativeTo(null);
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
@@ -169,6 +241,14 @@ public class UserScreen extends JFrame {
     private JButton loginbtn;
     private JButton registerbtn;
     private JPasswordField passwordField1;
+    private JLabel emaillbl;
+    private JTextField emailtxt;
+    private JLabel mobilelbl;
+    private JTextField mobiletxt;
+    private JLabel citylbl;
+    private JTextField citytxt;
+    private JButton clearbtn;
+    private JButton changepwdbtn;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 
 }
