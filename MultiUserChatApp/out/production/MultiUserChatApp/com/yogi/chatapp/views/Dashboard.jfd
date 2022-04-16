@@ -1,0 +1,37 @@
+JFDML JFormDesigner: "7.0.5.1.409" Java: "11.0.11" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class java.awt.BorderLayout ) ) {
+			name: "this"
+			"$locationPolicy": 1
+			"defaultCloseOperation": 3
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "label1"
+				"text": "text"
+				"icon": new com.jformdesigner.model.SwingIcon( 0, "/images/960x0.jpg" )
+				"horizontalAlignment": 0
+				"preferredSize": new java.awt.Dimension( 725, 500 )
+				"maximumSize": new java.awt.Dimension( 724, 679 )
+				"horizontalTextPosition": 0
+			}, new FormLayoutConstraints( class java.lang.String ) {
+				"value": "Center"
+			} )
+			menuBar: new FormContainer( "javax.swing.JMenuBar", new FormLayoutManager( class javax.swing.JMenuBar ) ) {
+				name: "menuBar1"
+				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
+					name: "chatMenu"
+					"text": "Chat"
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "startChat"
+						"text": "Start Chat"
+					} )
+				} )
+			}
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 10 )
+			"size": new java.awt.Dimension( 1100, 580 )
+		} )
+	}
+}
