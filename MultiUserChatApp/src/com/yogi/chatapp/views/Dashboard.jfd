@@ -27,6 +27,11 @@ new FormModel {
 						name: "startChat"
 						"text": "Start Chat"
 					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "logout"
+						"text": "Logout"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "logout", true ) )
+					} )
 				} )
 			}
 		}, new FormLayoutConstraints( null ) {

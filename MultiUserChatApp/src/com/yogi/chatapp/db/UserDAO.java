@@ -3,7 +3,7 @@ package com.yogi.chatapp.db;
 import com.yogi.chatapp.DTO.UserDTO;
 import com.yogi.chatapp.Exceptions.MyException;
 import com.yogi.chatapp.utils.Encryption;
-import com.yogi.chatapp.utils.MatchPassword;
+import com.yogi.chatapp.utils.Validations;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
@@ -81,7 +81,7 @@ public class UserDAO {
             while (rs.next()) {
                 currentPassword = rs.getString(1);
             }
-            if (!MatchPassword.matchPwd(currentPassword, new String(userDTO.getOldPassword())))
+            if (!Validations.matchPwd(currentPassword, new String(userDTO.getOldPassword())))
                 throw new MyException("Old Password did not matched, please provide correct one");
             String encryptedPassword = Encryption.passwordEncrypt(new String(userDTO.getNewPassword()));
             pstmt = connection.prepareStatement(sqlQuery2);
