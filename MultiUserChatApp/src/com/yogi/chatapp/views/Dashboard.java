@@ -5,6 +5,7 @@
 package com.yogi.chatapp.views;
 
 import java.awt.*;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -23,9 +24,13 @@ public class Dashboard extends JFrame {
         setTitle(message);
     }
 
-//    public static void main(String[] args) {
-//        Dashboard dashboard = new Dashboard();
-//    }
+    private void logout(ActionEvent e) {
+        setVisible(false);
+        dispose();
+        JOptionPane.showMessageDialog(this,"You have been successfully logged out.");
+        UserScreen.main(new String[]{""});
+    }
+
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
@@ -33,6 +38,7 @@ public class Dashboard extends JFrame {
         menuBar1 = new JMenuBar();
         chatMenu = new JMenu();
         startChat = new JMenuItem();
+        logout = new JMenuItem();
         label1 = new JLabel();
 
         //======== this ========
@@ -50,6 +56,11 @@ public class Dashboard extends JFrame {
                 //---- startChat ----
                 startChat.setText("Start Chat");
                 chatMenu.add(startChat);
+
+                //---- logout ----
+                logout.setText("Logout");
+                logout.addActionListener(e -> logout(e));
+                chatMenu.add(logout);
             }
             menuBar1.add(chatMenu);
         }
@@ -73,6 +84,7 @@ public class Dashboard extends JFrame {
     private JMenuBar menuBar1;
     private JMenu chatMenu;
     private JMenuItem startChat;
+    private JMenuItem logout;
     private JLabel label1;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }
