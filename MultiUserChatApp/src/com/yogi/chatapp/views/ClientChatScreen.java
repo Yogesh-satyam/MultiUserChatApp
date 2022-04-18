@@ -7,11 +7,10 @@ package com.yogi.chatapp.views;
 import com.yogi.chatapp.network.Client;
 import com.yogi.chatapp.utils.UserInfo;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.IOException;
-import java.util.Objects;
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.io.IOException;
 
 /**
  * @author Yogesh Satyam
@@ -23,7 +22,7 @@ public class ClientChatScreen extends JFrame {
         initComponents();
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        client=new Client(chattxtarea);
+        client = new Client(chattxtarea);
     }
 
 //    public static void main(String[] args) {
@@ -35,14 +34,15 @@ public class ClientChatScreen extends JFrame {
 //    }
 
     private void sendIt(ActionEvent e) {
-        String message=messagetxtfld.getText();
+        String message = messagetxtfld.getText();
         try {
-            client.sendMessage(UserInfo.USER_Name+" - "+message);
+            client.sendMessage(UserInfo.USER_Name + " - " + message);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
         messagetxtfld.setText(null);
     }
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - Yogesh Satyam
@@ -78,7 +78,7 @@ public class ClientChatScreen extends JFrame {
         {
             // compute preferred size
             Dimension preferredSize = new Dimension();
-            for(int i = 0; i < contentPane.getComponentCount(); i++) {
+            for (int i = 0; i < contentPane.getComponentCount(); i++) {
                 Rectangle bounds = contentPane.getComponent(i).getBounds();
                 preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                 preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);

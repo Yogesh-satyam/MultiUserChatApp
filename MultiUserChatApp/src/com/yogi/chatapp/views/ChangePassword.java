@@ -4,15 +4,15 @@
 
 package com.yogi.chatapp.views;
 
-import java.awt.event.*;
 import com.yogi.chatapp.DTO.UserDTO;
 import com.yogi.chatapp.Exceptions.MyException;
 import com.yogi.chatapp.db.UserDAO;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
-import javax.swing.*;
 
 /**
  * @author Yogesh Satyam
@@ -23,25 +23,25 @@ public class ChangePassword extends JFrame {
         setVisible(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
-    private void changePwd(){
-        String mobile=mobiletxt.getText();
-        char [] oldPassword=oldpwdtxt.getPassword(), newPassword=newpwdtxt.getPassword();
-        UserDAO userDAO=new UserDAO();
-        UserDTO userDTO= new UserDTO(mobile,oldPassword,newPassword);
+
+    private void changePwd() {
+        String mobile = mobiletxt.getText();
+        char[] oldPassword = oldpwdtxt.getPassword(), newPassword = newpwdtxt.getPassword();
+        UserDAO userDAO = new UserDAO();
+        UserDTO userDTO = new UserDTO(mobile, oldPassword, newPassword);
         try {
-            int result =userDAO.updatePassword(userDTO);
-            if(result>0) {
+            int result = userDAO.updatePassword(userDTO);
+            if (result > 0) {
                 JOptionPane.showMessageDialog(this, "Password Changed Successfully");
                 //   System.out.println("Record added");
-            }
-            else {
-                JOptionPane.showMessageDialog(this,"Password Change failed");
+            } else {
+                JOptionPane.showMessageDialog(this, "Password Change failed");
 
             }
-        }catch (MyException e) {
-            JOptionPane.showMessageDialog(this,String.valueOf(e));
+        } catch (MyException e) {
+            JOptionPane.showMessageDialog(this, String.valueOf(e));
             e.printStackTrace();
-        }catch (SQLException | ClassNotFoundException | NoSuchAlgorithmException throwables) {
+        } catch (SQLException | ClassNotFoundException | NoSuchAlgorithmException throwables) {
             throwables.printStackTrace();
         }
     }
@@ -113,7 +113,7 @@ public class ChangePassword extends JFrame {
         {
             // compute preferred size
             Dimension preferredSize = new Dimension();
-            for(int i = 0; i < contentPane.getComponentCount(); i++) {
+            for (int i = 0; i < contentPane.getComponentCount(); i++) {
                 Rectangle bounds = contentPane.getComponent(i).getBounds();
                 preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                 preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);

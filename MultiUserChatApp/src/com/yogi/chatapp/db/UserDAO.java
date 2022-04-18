@@ -6,72 +6,73 @@ import com.yogi.chatapp.utils.Encryption;
 import com.yogi.chatapp.utils.Validations;
 
 import java.security.NoSuchAlgorithmException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 //User CRUD
 public class UserDAO {
 
     public boolean isLogin(UserDTO userDTO) throws SQLException, ClassNotFoundException, NoSuchAlgorithmException {
-        Connection con=null;
-        PreparedStatement pstmt=null;
-        ResultSet rs=null;
-        final String sql="select userid from users where userid=? and password=?";
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        final String sql = "select userid from users where userid=? and password=?";
         try {
-            con=CommonDAO.createConnection();
-            pstmt=con.prepareStatement(sql);
-            pstmt.setString(1,userDTO.getUserid());
-            String encryptedPwd=Encryption.passwordEncrypt(new String(userDTO.getPassword()));
-            pstmt.setString(2,encryptedPwd);
-            rs=pstmt.executeQuery();
+            con = CommonDAO.createConnection();
+            pstmt = con.prepareStatement(sql);
+            pstmt.setString(1, userDTO.getUserid());
+            String encryptedPwd = Encryption.passwordEncrypt(new String(userDTO.getPassword()));
+            pstmt.setString(2, encryptedPwd);
+            rs = pstmt.executeQuery();
             return rs.next();
-        }
-        finally {
-            if(rs!=null)
+        } finally {
+            if (rs != null)
                 rs.close();
-            if(pstmt!=null)
+            if (pstmt != null)
                 pstmt.close();
-            if(con!=null)
-                con=null;
+            if (con != null)
+                con = null;
         }
     }
 
     public int add(UserDTO userDTO) throws SQLException, ClassNotFoundException, NoSuchAlgorithmException {
-        Connection connection=null;
-        PreparedStatement pstmt=null;
-        final String sql="insert into users(userid,password,email,mobile,city) values(?,?,?,?,?)";
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        final String sql = "insert into users(userid,password,email,mobile,city) values(?,?,?,?,?)";
         try {
             connection = CommonDAO.createConnection();
             pstmt = connection.prepareStatement(sql);
             pstmt.setString(1, userDTO.getUserid());
-            String encryptedPwd=Encryption.passwordEncrypt(new String(userDTO.getPassword()));
-            pstmt.setString(2,encryptedPwd);
-            pstmt.setString(3,userDTO.getEmail());
+            String encryptedPwd = Encryption.passwordEncrypt(new String(userDTO.getPassword()));
+            pstmt.setString(2, encryptedPwd);
+            pstmt.setString(3, userDTO.getEmail());
             pstmt.setString(4, userDTO.getMobile());
             pstmt.setString(5, userDTO.getMobile());
-            int record=pstmt.executeUpdate();
+            int record = pstmt.executeUpdate();
             return record;
-        }
-        finally {
-            if(pstmt!=null) {
+        } finally {
+            if (pstmt != null) {
                 pstmt.close();
             }
-            if(connection!=null) {
+            if (connection != null) {
                 connection.close();
             }
         }
     }
 
     public int updatePassword(UserDTO userDTO) throws SQLException, ClassNotFoundException, MyException, NoSuchAlgorithmException {
-        Connection connection=null;
-        PreparedStatement pstmt=null;
-        ResultSet rs=null;
-        final String sqlQuery1="select password from users where mobile=?";
-        final String sqlQuery2="update chatdb.users set password=? where mobile=?";
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        final String sqlQuery1 = "select password from users where mobile=?";
+        final String sqlQuery2 = "update chatdb.users set password=? where mobile=?";
         try {
 
 
             connection = CommonDAO.createConnection();
-            pstmt = connection.prepareStatement(sqlQuery1,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.TYPE_FORWARD_ONLY);
+            pstmt = connection.prepareStatement(sqlQuery1, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.TYPE_FORWARD_ONLY);
             pstmt.setString(1, userDTO.getMobile());
             rs = pstmt.executeQuery();
             if (!rs.next())
@@ -88,14 +89,13 @@ public class UserDAO {
             pstmt.setString(1, encryptedPassword);
             pstmt.setString(2, userDTO.getMobile());
             return pstmt.executeUpdate();
-        }
-        finally {
-           if(rs!=null)
-               rs.close();
-           if(pstmt!=null)
-               pstmt.close();
-           if(connection!=null)
-               connection.close();
+        } finally {
+            if (rs != null)
+                rs.close();
+            if (pstmt != null)
+                pstmt.close();
+            if (connection != null)
+                connection.close();
         }
     }
 

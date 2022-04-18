@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.util.Objects;
 
 public class Client {
     private final Socket clientSocket;
@@ -17,11 +16,11 @@ public class Client {
     private final JTextArea textArea;
 
     public Client(JTextArea textArea) throws IOException {
-        int port=Integer.parseInt(ConfigReader.getValue("PORTNO"));
-        clientSocket =new Socket(ConfigReader.getValue("SERVER_IP"),port);
-        in= clientSocket.getInputStream();
-        out= clientSocket.getOutputStream();
-        this.textArea=textArea;
+        int port = Integer.parseInt(ConfigReader.getValue("PORTNO"));
+        clientSocket = new Socket(ConfigReader.getValue("SERVER_IP"), port);
+        in = clientSocket.getInputStream();
+        out = clientSocket.getOutputStream();
+        this.textArea = textArea;
         readMeassage();
 //        System.out.println("Client Joined");
 //        System.out.println("Enter the Message:");
@@ -36,13 +35,13 @@ public class Client {
     }
 
     public void sendMessage(String message) throws IOException {
-        message=message+"\n";
+        message = message + "\n";
         out.write(message.getBytes());
 
     }
 
-    public void readMeassage(){
-        clientWorker=new ClientWorker(in,textArea);
+    public void readMeassage() {
+        clientWorker = new ClientWorker(in, textArea);
         clientWorker.start();
     }
 }

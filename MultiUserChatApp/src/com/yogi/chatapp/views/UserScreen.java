@@ -4,12 +4,11 @@ import com.yogi.chatapp.DTO.UserDTO;
 import com.yogi.chatapp.db.UserDAO;
 import com.yogi.chatapp.utils.UserInfo;
 
+import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
-import javax.swing.*;
-
 
 
 /**
@@ -27,53 +26,53 @@ public class UserScreen extends JFrame {
         UserScreen window = new UserScreen();
     }
 
-    UserDAO userDAO=new UserDAO();
+    UserDAO userDAO = new UserDAO();
 
-    private void doLogin(){
-        String userid=useridtxt.getText();
-        char[] password=passwordField1.getPassword();
-        UserDTO userDTO=new UserDTO(userid,password);
+    private void doLogin() {
+        String userid = useridtxt.getText();
+        char[] password = passwordField1.getPassword();
+        UserDTO userDTO = new UserDTO(userid, password);
         try {
             String message;
-            if(userDAO.isLogin(userDTO)) {
+            if (userDAO.isLogin(userDTO)) {
                 message = "Welcome " + userid;
-                UserInfo.USER_Name=userid;
-                JOptionPane.showMessageDialog(this,message);
+                UserInfo.USER_Name = userid;
+                JOptionPane.showMessageDialog(this, message);
                 setVisible(false);
                 dispose();
-                Dashboard dashboard=new Dashboard(message);
+                Dashboard dashboard = new Dashboard(message);
                 dashboard.setVisible(true);
-            }else {
+            } else {
                 message = "Invalid Userid or Password";
-                JOptionPane.showMessageDialog(this,message);
+                JOptionPane.showMessageDialog(this, message);
             }
- //           JOptionPane.showMessageDialog(this,message);
+            //           JOptionPane.showMessageDialog(this,message);
         } catch (SQLException | ClassNotFoundException | NoSuchAlgorithmException throwable) {
             throwable.printStackTrace();
         }
     }
-    private void register(){
-        String userid=useridtxt.getText(),email=emailtxt.getText(),mobile=mobiletxt.getText(),city=citytxt.getText();
-        char[] password=passwordField1.getPassword();
-        if(userid.equals("")||(new String(password).equals(""))||mobile.equals("")) {
+
+    private void register() {
+        String userid = useridtxt.getText(), email = emailtxt.getText(), mobile = mobiletxt.getText(), city = citytxt.getText();
+        char[] password = passwordField1.getPassword();
+        if (userid.equals("") || (new String(password).equals("")) || mobile.equals("")) {
             JOptionPane.showMessageDialog(this, "Please Fill The Form To Register");
             return;
         }
-        UserDTO userDTO=new UserDTO(userid,password,email,mobile,city);
+        UserDTO userDTO = new UserDTO(userid, password, email, mobile, city);
         try {
-            int result=userDAO.add(userDTO);
-            if(result>0) {
+            int result = userDAO.add(userDTO);
+            if (result > 0) {
                 JOptionPane.showMessageDialog(this, "Registered Successfully");
-             //   System.out.println("Record added");
-            }
-            else {
-                JOptionPane.showMessageDialog(this,"Register failed");
+                //   System.out.println("Record added");
+            } else {
+                JOptionPane.showMessageDialog(this, "Register failed");
 
             }
         } catch (SQLException | ClassNotFoundException throwables) {
             System.out.println("DB issue.........");
             throwables.printStackTrace();
-        } catch (Exception ex){
+        } catch (Exception ex) {
             System.out.println("Some generic exception raised...");
             ex.printStackTrace();
         }
@@ -97,10 +96,9 @@ public class UserScreen extends JFrame {
 
     private void changepwdbtn(ActionEvent e) {
         dispose();
-        ChangePassword changePassword=new ChangePassword();
+        ChangePassword changePassword = new ChangePassword();
         changePassword.setVisible(true);
     }
-
 
 
     private void initComponents() {
@@ -214,7 +212,7 @@ public class UserScreen extends JFrame {
         {
             // compute preferred size
             Dimension preferredSize = new Dimension();
-            for(int i = 0; i < contentPane.getComponentCount(); i++) {
+            for (int i = 0; i < contentPane.getComponentCount(); i++) {
                 Rectangle bounds = contentPane.getComponent(i).getBounds();
                 preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
                 preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);

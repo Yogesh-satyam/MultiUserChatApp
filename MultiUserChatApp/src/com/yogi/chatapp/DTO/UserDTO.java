@@ -1,8 +1,8 @@
 package com.yogi.chatapp.DTO;
 
 public class UserDTO {
-    private String userid,email,mobile,city;
-    private char[] password,oldPassword,newPassword;
+    private String userid, email, mobile, city;
+    private char[] password, oldPassword, newPassword;
 
 
     public UserDTO(String userid, char[] password) {
@@ -18,10 +18,10 @@ public class UserDTO {
         this.password = password;
     }
 
-    public UserDTO(String mobile, char[] oldPassword,char[] newPassword){
-        this.mobile=mobile;
-        this.oldPassword=oldPassword;
-        this.newPassword=newPassword;
+    public UserDTO(String mobile, char[] oldPassword, char[] newPassword) {
+        this.mobile = mobile;
+        this.oldPassword = oldPassword;
+        this.newPassword = newPassword;
     }
 
     public char[] getOldPassword() {

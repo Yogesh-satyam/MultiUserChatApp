@@ -4,13 +4,10 @@
 
 package com.yogi.chatapp.views;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.io.IOException;
 
 /**
  * @author Yogesh Satyam
@@ -27,7 +24,7 @@ public class Dashboard extends JFrame {
     private void logout(ActionEvent e) {
         setVisible(false);
         dispose();
-        JOptionPane.showMessageDialog(this,"You have been successfully logged out.");
+        JOptionPane.showMessageDialog(this, "You have been successfully logged out.");
         UserScreen.main(new String[]{""});
     }
 
