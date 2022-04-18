@@ -31,6 +31,14 @@ public class Dashboard extends JFrame {
         UserScreen.main(new String[]{""});
     }
 
+    private void startChat(ActionEvent e) {
+        try {
+            new ClientChatScreen();
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
 
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
@@ -43,6 +51,7 @@ public class Dashboard extends JFrame {
 
         //======== this ========
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
         var contentPane = getContentPane();
         contentPane.setLayout(new BorderLayout());
 
@@ -55,6 +64,7 @@ public class Dashboard extends JFrame {
 
                 //---- startChat ----
                 startChat.setText("Start Chat");
+                startChat.addActionListener(e -> startChat(e));
                 chatMenu.add(startChat);
 
                 //---- logout ----

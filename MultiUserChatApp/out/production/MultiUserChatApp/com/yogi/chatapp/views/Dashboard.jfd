@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "7.0.5.1.409" Java: "11.0.11" encoding: "UTF-8"
+JFDML JFormDesigner: "7.0.5.1.409" Java: "11.0.14.1" encoding: "UTF-8"
 
 new FormModel {
 	contentType: "form/swing"
@@ -7,6 +7,7 @@ new FormModel {
 			name: "this"
 			"$locationPolicy": 1
 			"defaultCloseOperation": 3
+			"resizable": false
 			add( new FormComponent( "javax.swing.JLabel" ) {
 				name: "label1"
 				"text": "text"
@@ -26,6 +27,7 @@ new FormModel {
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "startChat"
 						"text": "Start Chat"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "startChat", true ) )
 					} )
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
 						name: "logout"

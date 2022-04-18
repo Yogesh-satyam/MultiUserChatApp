@@ -2,6 +2,7 @@ package com.yogi.chatapp.views;
 
 import com.yogi.chatapp.DTO.UserDTO;
 import com.yogi.chatapp.db.UserDAO;
+import com.yogi.chatapp.utils.UserInfo;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -36,6 +37,7 @@ public class UserScreen extends JFrame {
             String message;
             if(userDAO.isLogin(userDTO)) {
                 message = "Welcome " + userid;
+                UserInfo.USER_Name=userid;
                 JOptionPane.showMessageDialog(this,message);
                 setVisible(false);
                 dispose();
@@ -77,14 +79,6 @@ public class UserScreen extends JFrame {
         }
     }
 
-    private void clearFields(){
-        useridtxt.setText(null);
-        passwordField1.setText(null);
-        emailtxt.setText(null);
-        mobiletxt.setText(null);
-        citytxt.setText(null);
-    }
-
     private void registerbtn(ActionEvent e) {
         register();
     }
@@ -94,7 +88,11 @@ public class UserScreen extends JFrame {
     }
 
     private void clearbtn(ActionEvent e) {
-        clearFields();
+        useridtxt.setText(null);
+        passwordField1.setText(null);
+        emailtxt.setText(null);
+        mobiletxt.setText(null);
+        citytxt.setText(null);
     }
 
     private void changepwdbtn(ActionEvent e) {

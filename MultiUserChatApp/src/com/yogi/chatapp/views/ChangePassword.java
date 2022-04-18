@@ -65,6 +65,7 @@ public class ChangePassword extends JFrame {
         newpwdtxt = new JPasswordField();
 
         //======== this ========
+        setResizable(false);
         var contentPane = getContentPane();
         contentPane.setLayout(null);
 
@@ -96,7 +97,7 @@ public class ChangePassword extends JFrame {
         //---- subitbtn ----
         subitbtn.setText("Submit");
         subitbtn.setFont(subitbtn.getFont().deriveFont(subitbtn.getFont().getStyle() | Font.BOLD, subitbtn.getFont().getSize() + 12f));
-        subitbtn.addActionListener(this::subitbtn);
+        subitbtn.addActionListener(e -> subitbtn(e));
         contentPane.add(subitbtn);
         subitbtn.setBounds(235, 315, 135, 40);
 
@@ -124,7 +125,7 @@ public class ChangePassword extends JFrame {
             contentPane.setPreferredSize(preferredSize);
         }
         setSize(590, 395);
-        setLocationRelativeTo(getOwner());
+        setLocationRelativeTo(null);
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
 
