@@ -1,4 +1,8 @@
 /*
+ * Copyright (c) 2022. This file's all copyrights are reserved to Yogesh Satyam .
+ */
+
+/*
  * Created by JFormDesigner on Sun Apr 10 00:43:42 IST 2022
  */
 
@@ -6,13 +10,14 @@ package com.yogi.chatapp.views;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 
 /**
  * @author Yogesh Satyam
  */
 public class Dashboard extends JFrame {
+
+    ClientChatScreen clientChatScreen;
     public Dashboard(String message) {
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -21,16 +26,24 @@ public class Dashboard extends JFrame {
         setTitle(message);
     }
 
-    private void logout(ActionEvent e) {
-        setVisible(false);
-        dispose();
+    private void logout() {
+        if(clientChatScreen!=null&&clientChatScreen.isDisplayable()){
+            JOptionPane.showMessageDialog(this, "Please close your chat first to logout");
+            return;
+        }
+        this.setVisible(false);
+        this.dispose();
         JOptionPane.showMessageDialog(this, "You have been successfully logged out.");
         UserScreen.main(new String[]{""});
     }
 
-    private void startChat(ActionEvent e) {
+    private void startChat() {
+        if(clientChatScreen!=null&&clientChatScreen.isDisplayable()){
+            JOptionPane.showMessageDialog(this,"Your chat window is already open");
+            return;
+        }
         try {
-            new ClientChatScreen();
+           clientChatScreen= new ClientChatScreen();
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
@@ -40,11 +53,13 @@ public class Dashboard extends JFrame {
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - Yogesh Satyam
-        menuBar1 = new JMenuBar();
-        chatMenu = new JMenu();
-        startChat = new JMenuItem();
-        logout = new JMenuItem();
-        label1 = new JLabel();
+        // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
+        // Generated using JFormDesigner Evaluation license - Yogesh Satyam
+        JMenuBar menuBar1 = new JMenuBar();
+        JMenu chatMenu = new JMenu();
+        JMenuItem startChat = new JMenuItem();
+        JMenuItem logout = new JMenuItem();
+        JLabel label1 = new JLabel();
 
         //======== this ========
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -61,12 +76,12 @@ public class Dashboard extends JFrame {
 
                 //---- startChat ----
                 startChat.setText("Start Chat");
-                startChat.addActionListener(e -> startChat(e));
+                startChat.addActionListener(e -> startChat());
                 chatMenu.add(startChat);
 
                 //---- logout ----
                 logout.setText("Logout");
-                logout.addActionListener(e -> logout(e));
+                logout.addActionListener(e -> logout());
                 chatMenu.add(logout);
             }
             menuBar1.add(chatMenu);
@@ -75,6 +90,7 @@ public class Dashboard extends JFrame {
 
         //---- label1 ----
         label1.setText("text");
+        //noinspection ConstantConditions
         label1.setIcon(new ImageIcon(getClass().getResource("/images/960x0.jpg")));
         label1.setHorizontalAlignment(SwingConstants.CENTER);
         label1.setPreferredSize(new Dimension(725, 500));
@@ -86,12 +102,5 @@ public class Dashboard extends JFrame {
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
 
-    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-    // Generated using JFormDesigner Evaluation license - Yogesh Satyam
-    private JMenuBar menuBar1;
-    private JMenu chatMenu;
-    private JMenuItem startChat;
-    private JMenuItem logout;
-    private JLabel label1;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }

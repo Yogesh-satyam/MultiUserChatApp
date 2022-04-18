@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022. This file's all copyrights are reserved to Yogesh Satyam .
+ */
+
 package com.yogi.chatapp.views;
 
 import com.yogi.chatapp.DTO.UserDTO;
@@ -6,7 +10,6 @@ import com.yogi.chatapp.utils.UserInfo;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
@@ -23,7 +26,7 @@ public class UserScreen extends JFrame {
     }
 
     public static void main(String[] args) {
-        UserScreen window = new UserScreen();
+        new UserScreen();
     }
 
     UserDAO userDAO = new UserDAO();
@@ -36,7 +39,7 @@ public class UserScreen extends JFrame {
             String message;
             if (userDAO.isLogin(userDTO)) {
                 message = "Welcome " + userid;
-                UserInfo.USER_Name = userid;
+                UserInfo.setUser_id(userid);
                 JOptionPane.showMessageDialog(this, message);
                 setVisible(false);
                 dispose();
@@ -78,15 +81,15 @@ public class UserScreen extends JFrame {
         }
     }
 
-    private void registerbtn(ActionEvent e) {
+    private void registerbtn() {
         register();
     }
 
-    private void loginbtn(ActionEvent e) {
+    private void loginbtn() {
         doLogin();
     }
 
-    private void clearbtn(ActionEvent e) {
+    private void clearbtn() {
         useridtxt.setText(null);
         passwordField1.setText(null);
         emailtxt.setText(null);
@@ -94,7 +97,7 @@ public class UserScreen extends JFrame {
         citytxt.setText(null);
     }
 
-    private void changepwdbtn(ActionEvent e) {
+    private void changepwdbtn() {
         dispose();
         ChangePassword changePassword = new ChangePassword();
         changePassword.setVisible(true);
@@ -104,21 +107,23 @@ public class UserScreen extends JFrame {
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - Yogesh Satyam
-        label1 = new JLabel();
+        // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
+        // Generated using JFormDesigner Evaluation license - Yogesh Satyam
+        JLabel label1 = new JLabel();
         useridtxt = new JTextField();
-        useridlbl = new JLabel();
-        pswdlbl = new JLabel();
-        loginbtn = new JButton();
-        registerbtn = new JButton();
+        JLabel useridlbl = new JLabel();
+        JLabel pswdlbl = new JLabel();
+        JButton loginbtn = new JButton();
+        JButton registerbtn = new JButton();
         passwordField1 = new JPasswordField();
-        emaillbl = new JLabel();
+        JLabel emaillbl = new JLabel();
         emailtxt = new JTextField();
-        mobilelbl = new JLabel();
+        JLabel mobilelbl = new JLabel();
         mobiletxt = new JTextField();
-        citylbl = new JLabel();
+        JLabel citylbl = new JLabel();
         citytxt = new JTextField();
-        clearbtn = new JButton();
-        changepwdbtn = new JButton();
+        JButton clearbtn = new JButton();
+        JButton changepwdbtn = new JButton();
 
         //======== this ========
         setTitle("LOGIN");
@@ -154,7 +159,7 @@ public class UserScreen extends JFrame {
         loginbtn.setText("Login");
         loginbtn.setFont(loginbtn.getFont().deriveFont(loginbtn.getFont().getStyle() | Font.BOLD, loginbtn.getFont().getSize() + 12f));
         loginbtn.setFocusPainted(false);
-        loginbtn.addActionListener(e -> loginbtn(e));
+        loginbtn.addActionListener(e -> loginbtn());
         contentPane.add(loginbtn);
         loginbtn.setBounds(235, 415, 110, 40);
 
@@ -162,7 +167,7 @@ public class UserScreen extends JFrame {
         registerbtn.setText("Register");
         registerbtn.setFont(registerbtn.getFont().deriveFont(registerbtn.getFont().getStyle() | Font.BOLD, registerbtn.getFont().getSize() + 12f));
         registerbtn.setFocusPainted(false);
-        registerbtn.addActionListener(e -> registerbtn(e));
+        registerbtn.addActionListener(e -> registerbtn());
         contentPane.add(registerbtn);
         registerbtn.setBounds(50, 415, 155, 40);
         contentPane.add(passwordField1);
@@ -199,13 +204,13 @@ public class UserScreen extends JFrame {
         clearbtn.setText("Clear");
         clearbtn.setFont(clearbtn.getFont().deriveFont(clearbtn.getFont().getStyle() | Font.BOLD, clearbtn.getFont().getSize() + 12f));
         clearbtn.setFocusPainted(false);
-        clearbtn.addActionListener(e -> clearbtn(e));
+        clearbtn.addActionListener(e -> clearbtn());
         contentPane.add(clearbtn);
         clearbtn.setBounds(380, 415, 110, 40);
 
         //---- changepwdbtn ----
         changepwdbtn.setText("Change Password");
-        changepwdbtn.addActionListener(e -> changepwdbtn(e));
+        changepwdbtn.addActionListener(e -> changepwdbtn());
         contentPane.add(changepwdbtn);
         changepwdbtn.setBounds(575, 185, 140, changepwdbtn.getPreferredSize().height);
 
@@ -228,23 +233,11 @@ public class UserScreen extends JFrame {
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
 
-    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-    // Generated using JFormDesigner Evaluation license - Yogesh Satyam
-    private JLabel label1;
     private JTextField useridtxt;
-    private JLabel useridlbl;
-    private JLabel pswdlbl;
-    private JButton loginbtn;
-    private JButton registerbtn;
     private JPasswordField passwordField1;
-    private JLabel emaillbl;
     private JTextField emailtxt;
-    private JLabel mobilelbl;
     private JTextField mobiletxt;
-    private JLabel citylbl;
     private JTextField citytxt;
-    private JButton clearbtn;
-    private JButton changepwdbtn;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 
 }

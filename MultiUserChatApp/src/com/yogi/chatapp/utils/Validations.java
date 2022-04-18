@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022. This file's all copyrights are reserved to Yogesh Satyam .
+ */
+
 package com.yogi.chatapp.utils;
 
 import java.security.NoSuchAlgorithmException;

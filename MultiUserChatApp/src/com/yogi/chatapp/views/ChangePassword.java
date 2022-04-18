@@ -1,4 +1,8 @@
 /*
+ * Copyright (c) 2022. This file's all copyrights are reserved to Yogesh Satyam .
+ */
+
+/*
  * Created by JFormDesigner on Sun Apr 17 00:07:31 IST 2022
  */
 
@@ -10,7 +14,6 @@ import com.yogi.chatapp.db.UserDAO;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
@@ -46,7 +49,7 @@ public class ChangePassword extends JFrame {
         }
     }
 
-    private void subitbtn(ActionEvent e) {
+    private void subitbtn() {
         changePwd();
         dispose();
         UserScreen.main(new String[]{""});
@@ -55,11 +58,13 @@ public class ChangePassword extends JFrame {
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - Yogesh Satyam
-        titlelbl = new JLabel();
-        mobilelbl = new JLabel();
-        oldpwdlbl = new JLabel();
-        newpwdlbl = new JLabel();
-        subitbtn = new JButton();
+        // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
+        // Generated using JFormDesigner Evaluation license - Yogesh Satyam
+        JLabel titlelbl = new JLabel();
+        JLabel mobilelbl = new JLabel();
+        JLabel oldpwdlbl = new JLabel();
+        JLabel newpwdlbl = new JLabel();
+        JButton subitbtn = new JButton();
         mobiletxt = new JTextField();
         oldpwdtxt = new JPasswordField();
         newpwdtxt = new JPasswordField();
@@ -97,7 +102,7 @@ public class ChangePassword extends JFrame {
         //---- subitbtn ----
         subitbtn.setText("Submit");
         subitbtn.setFont(subitbtn.getFont().deriveFont(subitbtn.getFont().getStyle() | Font.BOLD, subitbtn.getFont().getSize() + 12f));
-        subitbtn.addActionListener(e -> subitbtn(e));
+        subitbtn.addActionListener(e -> subitbtn());
         contentPane.add(subitbtn);
         subitbtn.setBounds(235, 315, 135, 40);
 
@@ -129,13 +134,6 @@ public class ChangePassword extends JFrame {
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
 
-    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-    // Generated using JFormDesigner Evaluation license - Yogesh Satyam
-    private JLabel titlelbl;
-    private JLabel mobilelbl;
-    private JLabel oldpwdlbl;
-    private JLabel newpwdlbl;
-    private JButton subitbtn;
     private JTextField mobiletxt;
     private JPasswordField oldpwdtxt;
     private JPasswordField newpwdtxt;
