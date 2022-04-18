@@ -1,0 +1,47 @@
+JFDML JFormDesigner: "7.0.5.1.409" Java: "11.0.14.1" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class com.jformdesigner.runtime.NullLayout ) ) {
+			name: "this"
+			"$sizePolicy": 1
+			"$locationPolicy": 1
+			"title": "GaapShap"
+			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+				name: "scrollPane1"
+				add( new FormComponent( "javax.swing.JTextArea" ) {
+					name: "chattxtarea"
+				} )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"x": 55
+				"y": 30
+				"width": 510
+				"height": 265
+			} )
+			add( new FormComponent( "javax.swing.JTextField" ) {
+				name: "messagetxtfld"
+				"font": new java.awt.Font( "Monospaced", 0, 16 )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"x": 50
+				"y": 315
+				"width": 350
+				"height": 40
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "sendIt"
+				"text": "Send Message"
+				"font": new java.awt.Font( "Monospaced", 0, 14 )
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "sendIt", true ) )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
+				"x": 425
+				"y": 315
+				"width": 140
+				"height": 40
+			} )
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 105, 20 )
+			"size": new java.awt.Dimension( 640, 415 )
+		} )
+	}
+}
