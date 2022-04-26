@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022. This file's all copyrights are reserved to Yogesh Satyam .
+ */
+
 package com.yogi.chatapp.network;
 
 import com.yogi.chatapp.utils.ConfigReader;
@@ -5,25 +9,25 @@ import com.yogi.chatapp.utils.ConfigReader;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Server {
     private final ServerSocket serverSocket;
-    final ArrayList<ServerWorker> workers = new ArrayList<>();
-
-    public Server() throws IOException {
+    final static Map<Long,ServerWorker> workers = new ConcurrentHashMap<>();
+    public Server() throws IOException, ClassNotFoundException {
         int port = Integer.parseInt(ConfigReader.getValue("PORTNO"));
         serverSocket = new ServerSocket(port);
         System.out.println("Server Started and Waiting for Client to join....");
         handleClientRequest();
-
     }
-
-    public void handleClientRequest() throws IOException {
+    public void handleClientRequest() throws IOException, ClassNotFoundException {
+        //noinspection InfiniteLoopStatement
         while (true) {
             Socket clientSocket = serverSocket.accept();
-            ServerWorker serverWorker = new ServerWorker(clientSocket, this);
-            workers.add(serverWorker);
+            ServerWorker serverWorker = new ServerWorker(clientSocket);
+//            serverWorker.setName(UserInfo.USER_Name);
+            workers.put(serverWorker.getId(),serverWorker);
             serverWorker.start();
         }
     }
@@ -45,9 +49,14 @@ public class Server {
 //        in.close();
 //        socket.close();
 //    }
-    public static void main(String[] args) throws IOException {
-        Server server = new Server();
+    public static void main(String[] args){
+        try {
+            new Server();
+        } catch (IOException | ClassNotFoundException e) {
+           e.printStackTrace();
+        }
 
     }
 }
+
 

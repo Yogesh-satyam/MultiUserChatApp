@@ -1,9 +1,34 @@
+/*
+ * Copyright (c) 2022. This file's all copyrights are reserved to Yogesh Satyam .
+ */
+
 package com.yogi.chatapp.DTO;
 
 public class UserDTO {
     private String userid, email, mobile, city;
     private char[] password, oldPassword, newPassword;
 
+    @SuppressWarnings({"FieldCanBeLocal", "unused"})
+    private char status;
+
+    /**
+     * This Constructor was made for future use case in server2
+     * @param userid UserName of Client
+     * @param status Status of Client
+     */
+    @SuppressWarnings("unused")
+    public UserDTO(String userid, char status) {
+        this.userid = userid;
+        this.status = status;
+    }
+
+//    public char getStatus() {
+//        return status;
+//    }
+//
+//    public void setStatus(char status) {
+//        this.status = status;
+//    }
 
     public UserDTO(String userid, char[] password) {
         this.userid = userid;
@@ -28,25 +53,17 @@ public class UserDTO {
         return oldPassword;
     }
 
-    public void setOldPassword(char[] oldPassword) {
-        this.oldPassword = oldPassword;
-    }
-
     public char[] getNewPassword() {
         return newPassword;
-    }
-
-    public void setNewPassword(char[] newPassword) {
-        this.newPassword = newPassword;
     }
 
     public String getUserid() {
         return userid;
     }
 
-    public void setUserid(String userid) {
-        this.userid = userid;
-    }
+//    public void setUserid(String userid) {
+//        this.userid = userid;
+//    }
 
     public char[] getPassword() {
         return password;
@@ -56,27 +73,11 @@ public class UserDTO {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getMobile() {
         return mobile;
     }
 
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
     public String getCity() {
         return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public void setPassword(char[] password) {
-        this.password = password;
     }
 }

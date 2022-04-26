@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2022. This file's all copyrights are reserved to Yogesh Satyam .
+ */
+
 package com.yogi.chatapp.db;
 
 import com.yogi.chatapp.DTO.UserDTO;
@@ -28,12 +32,15 @@ public class UserDAO {
             rs = pstmt.executeQuery();
             return rs.next();
         } finally {
-            if (rs != null)
+            if (rs != null) {
                 rs.close();
-            if (pstmt != null)
+            }
+            if (pstmt != null) {
                 pstmt.close();
-            if (con != null)
-                con = null;
+            }
+            if (con != null) {
+                con.close();
+            }
         }
     }
 
@@ -41,6 +48,7 @@ public class UserDAO {
         Connection connection = null;
         PreparedStatement pstmt = null;
         final String sql = "insert into users(userid,password,email,mobile,city) values(?,?,?,?,?)";
+        //noinspection TryFinallyCanBeTryWithResources
         try {
             connection = CommonDAO.createConnection();
             pstmt = connection.prepareStatement(sql);
@@ -49,9 +57,8 @@ public class UserDAO {
             pstmt.setString(2, encryptedPwd);
             pstmt.setString(3, userDTO.getEmail());
             pstmt.setString(4, userDTO.getMobile());
-            pstmt.setString(5, userDTO.getMobile());
-            int record = pstmt.executeUpdate();
-            return record;
+            pstmt.setString(5, userDTO.getCity());
+            return pstmt.executeUpdate();
         } finally {
             if (pstmt != null) {
                 pstmt.close();
@@ -72,31 +79,83 @@ public class UserDAO {
 
 
             connection = CommonDAO.createConnection();
+            //noinspection MagicConstant
             pstmt = connection.prepareStatement(sqlQuery1, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.TYPE_FORWARD_ONLY);
             pstmt.setString(1, userDTO.getMobile());
             rs = pstmt.executeQuery();
-            if (!rs.next())
+            if (!rs.next()) {
                 throw new MyException("User does not exist");
+            }
             rs.beforeFirst();
             String currentPassword = null;
             while (rs.next()) {
                 currentPassword = rs.getString(1);
             }
-            if (!Validations.matchPwd(currentPassword, new String(userDTO.getOldPassword())))
+            //noinspection ConstantConditions
+            if (!Validations.matchPwd(currentPassword, new String(userDTO.getOldPassword()))) {
                 throw new MyException("Old Password did not matched, please provide correct one");
+            }
             String encryptedPassword = Encryption.passwordEncrypt(new String(userDTO.getNewPassword()));
             pstmt = connection.prepareStatement(sqlQuery2);
             pstmt.setString(1, encryptedPassword);
             pstmt.setString(2, userDTO.getMobile());
             return pstmt.executeUpdate();
         } finally {
-            if (rs != null)
+            if (rs != null) {
                 rs.close();
-            if (pstmt != null)
+            }
+            if (pstmt != null) {
                 pstmt.close();
-            if (connection != null)
+            }
+            if (connection != null) {
                 connection.close();
+            }
         }
     }
+
+//    public int updateStatus(UserDTO userDTO) throws SQLException, ClassNotFoundException {
+//        Connection connection = null;
+//        PreparedStatement pstmt = null;
+//        final String sqlQuery="update chatdb.users set status=? where userid=?";
+//        //noinspection TryFinallyCanBeTryWithResources
+//        try{
+//            connection=CommonDAO.createConnection();
+//            pstmt=connection.prepareStatement(sqlQuery);
+//            pstmt.setString(1, String.valueOf(userDTO.getStatus()));
+//            pstmt.setString(2,userDTO.getUserid());
+//            return pstmt.executeUpdate();
+//        }finally {
+//            if (pstmt != null) {
+//                pstmt.close();
+//            }
+//            if (connection != null) {
+//                connection.close();
+//            }
+//        }
+//    }
+
+//    public static HashMap<String,String> getStatus() throws SQLException, ClassNotFoundException {
+//        Connection connection = null;
+//        PreparedStatement pstmt = null;
+//        ResultSet rs=null;
+//        HashMap<String, String> hs=new HashMap<>();
+//        final String sqlQuery="select userid,status from users";
+//        try{
+//            connection=CommonDAO.createConnection();
+//            pstmt=connection.prepareStatement(sqlQuery);
+//            rs=pstmt.executeQuery();
+//            while(rs.next()){
+//                hs.put(rs.getString(1),rs.getString(2));
+//            }
+//            return hs;
+//        }finally {
+//            if (pstmt != null) {
+//                pstmt.close();
+//            }
+//            if (connection != null) {
+//                connection.close();
+//            }
+//        }
+//    }
 
 }
