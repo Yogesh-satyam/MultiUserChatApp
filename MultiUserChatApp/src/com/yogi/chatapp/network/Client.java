@@ -53,7 +53,7 @@ public class Client {
     }
 
     public void readMessage() throws IOException {
-        clientWorker = new ClientWorker(in, textArea, onlineUsersList);
+        clientWorker = new ClientWorker(in, textArea, clientSocket ,onlineUsersList);
         clientWorker.start();
     }
 
