@@ -8,6 +8,7 @@ import com.yogi.chatapp.utils.UserInfo;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -56,7 +57,11 @@ public class ServerWorker extends Thread {
 //            onlineStatus();
             while (!clientSocket.isClosed()) {
 //                line = br.readLine()+"\n";
-                line = (String) ois.readObject();
+                try {
+                    line = (String) ois.readObject();
+                }catch(EOFException | SocketException e){
+                    break;
+                }
 //                getClientNames();
                 if (line == null || line.equalsIgnoreCase("quit")) {
                     break;
