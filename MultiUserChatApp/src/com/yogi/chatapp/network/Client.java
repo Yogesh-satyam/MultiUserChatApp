@@ -4,6 +4,9 @@
 
 package com.yogi.chatapp.network;
 
+import com.yogi.chatapp.DTO.UserDTO;
+import com.yogi.chatapp.Exceptions.MyException;
+import com.yogi.chatapp.db.UserDAO;
 import com.yogi.chatapp.utils.ConfigReader;
 import com.yogi.chatapp.utils.UserInfo;
 
@@ -13,6 +16,7 @@ import java.io.InputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.sql.SQLException;
 
 public class Client {
     final Socket clientSocket;
@@ -72,5 +76,20 @@ public class Client {
         ObjectOutputStream oos = new ObjectOutputStream(out);
         oos.writeObject(UserInfo.getUserInfoObjet(UserInfo.getUser_id()));
         oos.flush();
+    }
+
+    public boolean checkStatus(String userid) throws SQLException, ClassNotFoundException, MyException {
+        String status=UserDAO.getStatus(new UserDTO(userid));
+        if(status!=null)
+            return status.equals("N");
+        else
+            throw new MyException("Sorry! no user with userid - "+userid+"exists till now");
+    }
+
+    public void initiatePrivateChat(String userid) throws SQLException, ClassNotFoundException, MyException {
+        if(checkStatus(userid)){
+            throw new MyException("Sorry!, "+userid+" is not online right now.");
+        }
+
     }
 }

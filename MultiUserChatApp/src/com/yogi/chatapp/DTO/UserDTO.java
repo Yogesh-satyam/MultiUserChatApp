@@ -7,28 +7,28 @@ package com.yogi.chatapp.DTO;
 public class UserDTO {
     private String userid, email, mobile, city;
     private char[] password, oldPassword, newPassword;
-
-    @SuppressWarnings({"FieldCanBeLocal", "unused"})
     private char status;
+
+    public UserDTO(String userid) {
+        this.userid = userid;
+    }
 
     /**
      * This Constructor was made for future use case in server2
      * @param userid UserName of Client
      * @param status Status of Client
      */
-    @SuppressWarnings("unused")
     public UserDTO(String userid, char status) {
         this.userid = userid;
         this.status = status;
     }
 
-//    public char getStatus() {
-//        return status;
-//    }
-//
-//    public void setStatus(char status) {
-//        this.status = status;
-//    }
+    public char getStatus() {
+        return status;
+    }
+    public void setStatus(char status) {
+        this.status = status;
+    }
 
     public UserDTO(String userid, char[] password) {
         this.userid = userid;
