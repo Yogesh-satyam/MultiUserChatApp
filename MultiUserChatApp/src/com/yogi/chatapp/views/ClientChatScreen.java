@@ -27,12 +27,12 @@ public class ClientChatScreen extends JFrame {
     private final Client client;
     private final DefaultListModel<String> onlineUsersList;
     public ClientChatScreen() throws IOException {
+        onlineUsersList=new DefaultListModel<>();
         initComponents();
+        onlineUsersList.addElement("Send First Message to View");
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        onlineUsersList=new DefaultListModel<>();
-        client = new Client(chattxtarea, onlineUsersList);
-        onlineUsersList.addElement("Ram");
+        client = new Client(chattxtarea, onlineUsersList,this);
     }
 
 //    public static void main(String[] args) {
@@ -56,7 +56,7 @@ public class ClientChatScreen extends JFrame {
     private void quitChat() {
         try {
             client.disconnect();
-        } catch (IOException | InterruptedException ex) {
+        } catch (IOException | InterruptedException | MyException | SQLException | ClassNotFoundException ex) {
             ex.printStackTrace();
         }
         this.dispose();
@@ -86,10 +86,11 @@ public class ClientChatScreen extends JFrame {
             }
         }
         try {
+            quitChat();
             client.initiatePrivateChat(userid);
         } catch (MyException e) {
             JOptionPane.showMessageDialog(this,String.valueOf(e));
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (ClassNotFoundException | SQLException | IOException e) {
             e.printStackTrace();
         }
     }
