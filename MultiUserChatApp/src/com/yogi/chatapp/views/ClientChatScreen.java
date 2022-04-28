@@ -8,6 +8,9 @@
 
 package com.yogi.chatapp.views;
 
+import java.awt.event.*;
+
+import com.yogi.chatapp.Exceptions.MyException;
 import com.yogi.chatapp.network.Client;
 import com.yogi.chatapp.utils.UserInfo;
 
@@ -15,19 +18,21 @@ import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
 import java.io.IOException;
+import java.sql.SQLException;
 
 /**
  * @author Yogesh Satyam
  */
 public class ClientChatScreen extends JFrame {
     private final Client client;
-
+    private final DefaultListModel<String> onlineUsersList;
     public ClientChatScreen() throws IOException {
+        onlineUsersList=new DefaultListModel<>();
         initComponents();
+        onlineUsersList.addElement("Send First Message to View");
         setVisible(true);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        client = new Client(chattxtarea, onlineUsersList);
-        onlineUsersList.addElement("Ram");
+        client = new Client(chattxtarea, onlineUsersList,this);
     }
 
 //    public static void main(String[] args) {
@@ -51,7 +56,7 @@ public class ClientChatScreen extends JFrame {
     private void quitChat() {
         try {
             client.disconnect();
-        } catch (IOException | InterruptedException ex) {
+        } catch (IOException | InterruptedException | MyException | SQLException | ClassNotFoundException ex) {
             ex.printStackTrace();
         }
         this.dispose();
@@ -59,24 +64,54 @@ public class ClientChatScreen extends JFrame {
 
     }
 
+    private void quitChat(ActionEvent e) {
+        quitChat();
+    }
+
+    private void sendIt(ActionEvent e) {
+        sendIt();
+    }
+
+    private void chatWith() {
+        String userid=JOptionPane.showInputDialog(this,"Are you sure you want exit group chat and start private chat?\nIf yes, write complete userid with whom you want to chat.","Chat With",JOptionPane.QUESTION_MESSAGE);
+        if(userid==null||userid.equalsIgnoreCase(UserInfo.getUser_id())|| userid.equals("")) {
+            if (userid == null) {
+                return;
+            } else if (userid.equals("")) {
+                JOptionPane.showMessageDialog(this, "Please provide userid of other person, it can't be vacant or null");
+                return;
+            } else {
+                JOptionPane.showMessageDialog(this, "You can't start private chat with yourself!");
+                return;
+            }
+        }
+        try {
+            quitChat();
+            client.initiatePrivateChat(userid);
+        } catch (MyException e) {
+            JOptionPane.showMessageDialog(this,String.valueOf(e));
+        } catch (ClassNotFoundException | SQLException | IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     private void initComponents() {
         // JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
         // Generated using JFormDesigner Evaluation license - Yogesh Satyam
-        // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-        // Generated using JFormDesigner Evaluation license - Yogesh Satyam
-        JMenuBar menuBar1 = new JMenuBar();
-        JMenu menu2 = new JMenu();
-        JMenuItem quitChat = new JMenuItem();
-        JScrollPane scrollPane1 = new JScrollPane();
+        menuBar1 = new JMenuBar();
+        menu2 = new JMenu();
+        chatWith = new JMenuItem();
+        quitChat = new JMenuItem();
+        scrollPane1 = new JScrollPane();
         chattxtarea = new JTextArea();
         messagetxtfld = new JTextField();
-        JButton sendIt = new JButton();
-        JMenu menu1 = new JMenu();
-        JScrollPane scrollPane2 = new JScrollPane();
-        JList<String> onlineList = new JList<>();
-        JLabel label1 = new JLabel();
-        onlineUsersList = new DefaultListModel<>();
-        onlineUsersList.ensureCapacity(50);
+        sendIt = new JButton();
+        menu1 = new JMenu();
+        scrollPane2 = new JScrollPane();
+        onlineList = new JList();
+        label1 = new JLabel();
+
         //======== this ========
         setTitle("GaapShap");
         setResizable(false);
@@ -90,9 +125,14 @@ public class ClientChatScreen extends JFrame {
             {
                 menu2.setText("Options");
 
+                //---- chatWith ----
+                chatWith.setText("Chat With");
+                chatWith.addActionListener(e -> chatWith());
+                menu2.add(chatWith);
+
                 //---- quitChat ----
                 quitChat.setText("Quit Chat");
-                quitChat.addActionListener(e -> quitChat());
+                quitChat.addActionListener(e -> quitChat(e));
                 menu2.add(quitChat);
             }
             menuBar1.add(menu2);
@@ -114,7 +154,7 @@ public class ClientChatScreen extends JFrame {
         //---- sendIt ----
         sendIt.setText("Send Message");
         sendIt.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 14));
-        sendIt.addActionListener(e -> sendIt());
+        sendIt.addActionListener(e -> sendIt(e));
         contentPane.add(sendIt);
         sendIt.setBounds(425, 315, 140, 40);
 
@@ -130,7 +170,6 @@ public class ClientChatScreen extends JFrame {
 
             //---- onlineList ----
             onlineList.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 12));
-            onlineList.setModel(onlineUsersList);
             scrollPane2.setViewportView(onlineList);
         }
         contentPane.add(scrollPane2);
@@ -166,8 +205,19 @@ public class ClientChatScreen extends JFrame {
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
 
+    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
+    // Generated using JFormDesigner Evaluation license - Yogesh Satyam
+    private JMenuBar menuBar1;
+    private JMenu menu2;
+    private JMenuItem chatWith;
+    private JMenuItem quitChat;
+    private JScrollPane scrollPane1;
     private JTextArea chattxtarea;
     private JTextField messagetxtfld;
-    private DefaultListModel<String> onlineUsersList;
+    private JButton sendIt;
+    private JMenu menu1;
+    private JScrollPane scrollPane2;
+    private JList onlineList;
+    private JLabel label1;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }

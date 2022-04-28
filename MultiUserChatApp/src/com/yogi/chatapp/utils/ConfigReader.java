@@ -15,4 +15,12 @@ public class ConfigReader {
     public static String getValue(String key) {
         return rb.getString(key);
     }
+    public static String getPort(String key){
+        ResourceBundle rb=ResourceBundle.getBundle("port");
+        return rb.getString(key);
+    }
+
+//    public static void main(String[] args) {
+//        getValue("")
+//    }
 }

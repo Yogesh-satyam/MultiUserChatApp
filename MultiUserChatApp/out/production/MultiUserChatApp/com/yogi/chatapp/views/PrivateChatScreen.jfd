@@ -12,7 +12,7 @@ new FormModel {
 			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
 				name: "scrollPane1"
 				add( new FormComponent( "javax.swing.JTextArea" ) {
-					name: "chattxtarea"
+					name: "pchattxtarea"
 				} )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
 				"x": 55
@@ -47,45 +47,13 @@ new FormModel {
 				"x": 15
 				"y": -25
 			} )
-			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
-				name: "scrollPane2"
-				add( new FormComponent( "javax.swing.JList" ) {
-					name: "onlineList"
-					"font": new java.awt.Font( "Monospaced", 0, 12 )
-				} )
-			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-				"x": 575
-				"y": 55
-				"width": 155
-				"height": 240
-			} )
-			add( new FormComponent( "javax.swing.JLabel" ) {
-				name: "label1"
-				"text": "Online Users"
-				"horizontalAlignment": 0
-				"font": new java.awt.Font( "Monospaced", 0, 14 )
-				"background": new java.awt.Color( 187, 187, 187, 255 )
-				"labelFor": new FormReference( "onlineList" )
-				"focusable": false
-				"border": new javax.swing.border.EtchedBorder( 1, null, null )
-			}, new FormLayoutConstraints( class com.jformdesigner.runtime.NullConstraints ) {
-				"x": 575
-				"y": 30
-				"width": 155
-				"height": 25
-			} )
 			menuBar: new FormContainer( "javax.swing.JMenuBar", new FormLayoutManager( class javax.swing.JMenuBar ) ) {
 				name: "menuBar1"
 				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
 					name: "menu2"
 					"text": "Options"
 					add( new FormComponent( "javax.swing.JMenuItem" ) {
-						name: "chatWith"
-						"text": "Chat With"
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "chatWith", false ) )
-					} )
-					add( new FormComponent( "javax.swing.JMenuItem" ) {
-						name: "quitChat"
+						name: "quitPChat"
 						"text": "Quit Chat"
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "quitChat", true ) )
 					} )
@@ -93,7 +61,7 @@ new FormModel {
 			}
 		}, new FormLayoutConstraints( null ) {
 			"location": new java.awt.Point( 45, 20 )
-			"size": new java.awt.Dimension( 760, 430 )
+			"size": new java.awt.Dimension( 615, 430 )
 		} )
 	}
 }

@@ -4,11 +4,14 @@
 
 package com.yogi.chatapp.network;
 
+import com.yogi.chatapp.DTO.UserDTO;
+import com.yogi.chatapp.db.UserDAO;
 import com.yogi.chatapp.utils.UserInfo;
 
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -22,12 +25,11 @@ public class ServerWorker extends Thread {
     private final Thread onlineUsersThread;
     private final ObjectInputStream ois;
     private final ScheduledExecutorService executor;
+    private final UserDAO userDAO;
     private UserInfo userInfo;
-    private ArrayList<String> activeClients;
 //    private final Thread severHelper;
-
-//    private final UserDAO userDAO=new UserDAO();
-//    private UserDTO userDTO;
+    private ArrayList<String> activeClients;
+    private UserDTO userDTO;
 
     public ServerWorker(Socket clientSocket) throws IOException, ClassNotFoundException {
         this.clientSocket = clientSocket;
@@ -35,16 +37,16 @@ public class ServerWorker extends Thread {
         out = clientSocket.getOutputStream();
         oos = new ObjectOutputStream(out);
         ois = new ObjectInputStream(in);
+        userDAO = new UserDAO();
         init(in);
         this.setName(userInfo.getName());
         System.out.println(this.getName() + " New Client Comes");
 //        severHelper =new ServerHelper(out);
-
         onlineUsersThread = new Thread(() -> {
             activeClients = new ArrayList<>();
             getClientNames(activeClients);
         });
-        executor= Executors.newSingleThreadScheduledExecutor();
+        executor = Executors.newSingleThreadScheduledExecutor();
     }
 
     @Override
@@ -54,12 +56,18 @@ public class ServerWorker extends Thread {
         executor.scheduleAtFixedRate(onlineUsersThread, 0, 7500, TimeUnit.MILLISECONDS);
         String line;
         try {
-//            onlineStatus();
+            new Thread(() -> {
+                try {
+                    onlineStatus();
+                } catch (SQLException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }).start();
             while (!clientSocket.isClosed()) {
 //                line = br.readLine()+"\n";
                 try {
                     line = (String) ois.readObject();
-                }catch(EOFException | SocketException e){
+                } catch (EOFException | SocketException e) {
                     break;
                 }
 //                getClientNames();
@@ -81,7 +89,7 @@ public class ServerWorker extends Thread {
         } finally {
             Server.workers.remove(this.getId());
             try {
-//                offlineStatus();
+                offlineStatus();
                 System.out.println(this.getName() + "  Left");
 //                for (ServerWorker serverWorker : Server.workers.values()) {
 //                    serverWorker.out.write((this.getName() + "  left the chat").getBytes());
@@ -104,7 +112,7 @@ public class ServerWorker extends Thread {
                 if (out != null) {
                     out.close();
                 }
-            } catch (IOException e) {
+            } catch (IOException | SQLException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
         }
@@ -121,15 +129,15 @@ public class ServerWorker extends Thread {
         userInfo = (UserInfo) ois.readObject();
     }
 
-//    private void offlineStatus() throws SQLException, ClassNotFoundException {
-//        userDTO.setStatus('N');
-//        userDAO.updateStatus(userDTO);
-//    }
-//
-//    private void onlineStatus() throws SQLException, ClassNotFoundException {
-//        userDTO=new UserDTO(userInfo.getName(),'A');
-//        userDAO.updateStatus(userDTO);
-//    }
+    private void offlineStatus() throws SQLException, ClassNotFoundException {
+        userDTO.setStatus('N');
+        userDAO.updateStatus(userDTO);
+    }
+
+    private void onlineStatus() throws SQLException, ClassNotFoundException {
+        userDTO = new UserDTO(userInfo.getName(), 'A');
+        userDAO.updateStatus(userDTO);
+    }
 }
 
 //class ServerHelper extends Thread {

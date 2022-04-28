@@ -8,7 +8,6 @@ import javax.swing.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
-import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.concurrent.Executors;
@@ -20,22 +19,19 @@ public class ClientWorker extends Thread {
     private final InputStream in;
     private final JTextArea textArea;
     private final ObjectInputStream ois;
-    private final Socket clientSocket;
     private final Thread onlineUsersThread;
     private final ScheduledExecutorService executor;
     private ArrayList<String> activeClients;
 
 //    private final Thread clientHelper;
 
-    public ClientWorker(InputStream in, JTextArea textArea, Socket clientSocket, DefaultListModel<String> onlineUsersList) throws IOException {
+    public ClientWorker(InputStream in, JTextArea textArea, DefaultListModel<String> onlineUsersList) throws IOException {
         this.in = in;
         this.textArea = textArea;
-        this.clientSocket = clientSocket;
         ois = new ObjectInputStream(in);
 //        clientHelper = new ClientHelper(in);
         onlineUsersThread = new Thread(() -> {
             writeActiveClients(onlineUsersList);
-            System.out.println("executed");
 //                    try {
 //                        Thread.sleep(500);
 //                    } catch (InterruptedException e) {
@@ -53,8 +49,8 @@ public class ClientWorker extends Thread {
         String line;
         try {
             while (!isInterrupted()) {
-                //                line = br.readLine();
                 try {
+                //                line = br.readLine();
                     line = (String) ois.readObject();
                     //noinspection unchecked
                     activeClients = (ArrayList<String>) ois.readObject();

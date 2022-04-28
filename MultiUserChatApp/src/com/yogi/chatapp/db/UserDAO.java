@@ -113,48 +113,58 @@ public class UserDAO {
         }
     }
 
-//    public int updateStatus(UserDTO userDTO) throws SQLException, ClassNotFoundException {
-//        Connection connection = null;
-//        PreparedStatement pstmt = null;
-//        final String sqlQuery="update chatdb.users set status=? where userid=?";
-//        //noinspection TryFinallyCanBeTryWithResources
-//        try{
-//            connection=CommonDAO.createConnection();
-//            pstmt=connection.prepareStatement(sqlQuery);
-//            pstmt.setString(1, String.valueOf(userDTO.getStatus()));
-//            pstmt.setString(2,userDTO.getUserid());
-//            return pstmt.executeUpdate();
-//        }finally {
-//            if (pstmt != null) {
-//                pstmt.close();
-//            }
-//            if (connection != null) {
-//                connection.close();
-//            }
-//        }
-//    }
+    public void updateStatus(UserDTO userDTO) throws SQLException, ClassNotFoundException {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        final String sqlQuery="update chatdb.users set status=? where userid=?";
+        //noinspection TryFinallyCanBeTryWithResources
+        try{
+            connection=CommonDAO.createConnection();
+            pstmt=connection.prepareStatement(sqlQuery);
+            pstmt.setString(1, String.valueOf(userDTO.getStatus()));
+            pstmt.setString(2,userDTO.getUserid());
+            pstmt.executeUpdate();
+        }finally {
+            if (pstmt != null) {
+                pstmt.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
 
-//    public static HashMap<String,String> getStatus() throws SQLException, ClassNotFoundException {
-//        Connection connection = null;
-//        PreparedStatement pstmt = null;
-//        ResultSet rs=null;
-//        HashMap<String, String> hs=new HashMap<>();
-//        final String sqlQuery="select userid,status from users";
-//        try{
-//            connection=CommonDAO.createConnection();
-//            pstmt=connection.prepareStatement(sqlQuery);
-//            rs=pstmt.executeQuery();
-//            while(rs.next()){
-//                hs.put(rs.getString(1),rs.getString(2));
-//            }
-//            return hs;
-//        }finally {
-//            if (pstmt != null) {
-//                pstmt.close();
-//            }
-//            if (connection != null) {
-//                connection.close();
-//            }
+    public static String getStatus(UserDTO userDTO) throws SQLException, ClassNotFoundException {
+        Connection connection = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs;
+        final String sqlQuery="select status from users where userid=?";
+        //noinspection TryFinallyCanBeTryWithResources
+        try{
+            connection=CommonDAO.createConnection();
+            pstmt=connection.prepareStatement(sqlQuery);
+            pstmt.setString(1,userDTO.getUserid());
+            rs=pstmt.executeQuery();
+            if(rs.next()) {
+                return rs.getString(1);
+            }
+            return null;
+        }finally {
+            if (pstmt != null) {
+                pstmt.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
+//    public static void main(String[] args) {
+//        UserDTO userDTO=new UserDTO("Yogi23");
+//        try {
+//            System.out.println(getStatus(userDTO).equals("N"));
+//        } catch (SQLException | ClassNotFoundException e) {
+//            throw new RuntimeException(e);
 //        }
 //    }
 
