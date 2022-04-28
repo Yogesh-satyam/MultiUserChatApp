@@ -90,8 +90,8 @@ public class Client {
         while (!clientWorker.isInterrupted()) {
         }
         this.clientSocket.close();
-        System.out.println("stoopped");
         PortMLR.removePort((UserInfo.getUser_id()));
+        System.out.println("stoopped and "+UserInfo.getUser_id()+" has been removed from port list");
     }
 
     private void sendClientDetails() throws IOException {
@@ -119,8 +119,8 @@ public class Client {
         pcout=mySocket.getOutputStream();
         pcout.write((UserInfo.getUser_id()+"\n").getBytes());
         pcout.flush();
-        PrivateChatScreen privateChatScreen=new PrivateChatScreen(this, privateChatThread, pcout);
-        PCReader=new PrivateChatReader(mySocket,privateChatScreen.getPchattxtarea());
+        PrivateChatScreen privateChatScreen=new PrivateChatScreen(this, privateChatThread, pcout,userid);
+        PCReader=new PrivateChatReader(mySocket,privateChatScreen);
         PCReader.start();
     }
     private boolean establishConnection(String userid) throws IOException, SQLException, ClassNotFoundException, MyException {
@@ -154,4 +154,11 @@ public class Client {
         PCReader.interrupt();
         mySocket.close();
     }
+
+//    public void quitGroupChat() throws IOException {
+//        this.clientWorker.interrupt();
+//        while (!clientWorker.isInterrupted()) {
+//        }
+//        this.clientSocket.close();
+//    }
 }
