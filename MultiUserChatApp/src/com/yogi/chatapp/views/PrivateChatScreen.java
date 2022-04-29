@@ -185,6 +185,7 @@ public class PrivateChatScreen extends JFrame {
 
     private void thisWindowClosing() {
             quitChat();
+
     }
 
     public void disconnected(String senderName) {
