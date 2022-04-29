@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact type="jar" build-on-make="true" name="MultiUserChatApp:jar">
+  <artifact type="jar" name="MultiUserChatApp:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/MultiUserChatApp_jar</output-path>
     <root id="archive" name="MultiUserChatApp.jar">
       <element id="directory" name="META-INF">
@@ -8,6 +8,7 @@
       <element id="module-output" name="MultiUserChatApp" />
       <element id="extracted-dir" path="$PROJECT_DIR$/../../../../../../Program Files/Java/jaco-mp3-player-0.9.3/jaco-mp3-player-0.9.3.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/../../../../../../Program Files/Java/mysql-connector-java-8.0.26/mysql-connector-java-8.0.26.jar" path-in-jar="/" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/music/bensound-buddy.mp3" />
     </root>
   </artifact>
 </component>

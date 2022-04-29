@@ -12,8 +12,7 @@ import com.yogi.chatapp.utils.PlayBgMusic;
 
 import javax.swing.*;
 import java.awt.*;
-
-
+import java.net.MalformedURLException;
 
 
 /**
@@ -25,7 +24,7 @@ public class SplashScreen extends JWindow {
     private Timer timer;
 
     private final Thread bgm;
-    public SplashScreen() {
+    public SplashScreen() throws MalformedURLException {
         initComponents();
         bgm=new PlayBgMusic();
         bgm.start();
@@ -33,7 +32,12 @@ public class SplashScreen extends JWindow {
     }
 
     public static void main(String[] args) {
-        SplashScreen startScreen = new SplashScreen();
+        SplashScreen startScreen;
+        try {
+            startScreen = new SplashScreen();
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
         startScreen.runProgressBar();
     }
 

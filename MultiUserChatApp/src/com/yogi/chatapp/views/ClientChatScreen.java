@@ -15,6 +15,8 @@ import com.yogi.chatapp.utils.UserInfo;
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -29,7 +31,7 @@ public class ClientChatScreen extends JFrame {
         initComponents();
         onlineUsersList.addElement("Send First Message to View");
         setVisible(true);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         client = new Client(chattxtarea, onlineUsersList,this);
     }
 
@@ -109,6 +111,12 @@ public class ClientChatScreen extends JFrame {
         //======== this ========
         setTitle("GaapShap");
         setResizable(false);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                thisWindowClosing();
+            }
+        });
         var contentPane = getContentPane();
         contentPane.setLayout(null);
 
@@ -199,6 +207,10 @@ public class ClientChatScreen extends JFrame {
         setSize(760, 430);
         setLocationRelativeTo(null);
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
+    }
+
+    private void thisWindowClosing() {
+        quitChat();
     }
 
     private JTextArea chattxtarea;
