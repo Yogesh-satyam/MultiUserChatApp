@@ -1,6 +1,6 @@
 # MultiUserChatApp
 This project based on java, java swing and socket-programming.
-Since this project based on java so before running this file , system must have JRE.
+Since this project based on java so before running this file , system must have JDK 14+.
 This project requires some third party libraries, but required one are mysql and jaco.
 Download mysql-connector-java jar and jaco-mp3-player jar files. These two are must to properly run this project.
 This project uses remote database which is in my system, so follow following steps to run this project correctly.
