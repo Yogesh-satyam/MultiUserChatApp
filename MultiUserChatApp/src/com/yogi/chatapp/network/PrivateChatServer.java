@@ -11,6 +11,7 @@ import javax.swing.*;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
@@ -25,7 +26,7 @@ public class PrivateChatServer extends Thread{
     private JTextArea pchattxtarea;
     private BufferedReader br;
     private String senderName;
-    private int tester=0;
+//    private int tester=0;
     public PrivateChatServer(ServerSocket privateChatSocket, Thread writePort, Client client){
         this.privateChatSocket = privateChatSocket;
         this.writePort = writePort;
@@ -49,7 +50,7 @@ public class PrivateChatServer extends Thread{
             otherClientSocket=privateChatSocket.accept();
             count++;
         }
-        System.out.println("connection established");
+//        System.out.println("connection established");
     }
 
 
@@ -66,7 +67,7 @@ public class PrivateChatServer extends Thread{
         String line;
         try {
             while(true){
-                if(isInterrupted())
+                if(Thread.currentThread().isInterrupted())
                     break;
 //                if(br.read()==-1){
 //                    System.out.println("server disconnected");
@@ -76,16 +77,16 @@ public class PrivateChatServer extends Thread{
 //                    break;
 //                }
 //                br.reset();
-                line = br.readLine();
-                if(line==null){
-                    System.out.println("server disconnected");
-                    if(!client.isInitiator())
-                        privateChatScreen.disconnected(senderName);
+                try {
+                    line = br.readLine();
+                }catch(SocketException e){
+//                    System.out.println("server disconnected");
+                    e.printStackTrace();
                     restartConnection();
                     break;
                 }
                 pchattxtarea.setText(pchattxtarea.getText().replaceAll("(?m)^[ \\t]*\\r?\\n", "") + line + "\n");
-                System.out.println("server reading");
+//                System.out.println("server reading");
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -104,7 +105,7 @@ public class PrivateChatServer extends Thread{
 
     }
     private void dropConnection() throws IOException{
-        System.out.println("drop connection called");
+//        System.out.println("drop connection called");
         if(otherClientSocket.isConnected())
             otherClientSocket.close();
         restartConnection();
@@ -135,7 +136,7 @@ public class PrivateChatServer extends Thread{
         Executors.newSingleThreadScheduledExecutor().schedule(this,300, TimeUnit.MILLISECONDS);
     }
     private void initThread() throws IOException, InterruptedException {
-        System.out.println((tester++>1?"2nd time":"first time"));
+//        System.out.println((tester++>1?"2nd time":"first time"));
         acceptConnection();
         pcin=otherClientSocket.getInputStream();
         OutputStream pcout = otherClientSocket.getOutputStream();
@@ -145,11 +146,11 @@ public class PrivateChatServer extends Thread{
         if(client.getConfirmation(senderName))
             privateChatScreen =new PrivateChatScreen(client,this, pcout);
         else {
-            System.out.println("con drooped");
+//            System.out.println("con drooped");
             dropConnection();
         }
-        if(tester>1)
-            System.out.println("2nd time ran successfully");
+//        if(tester>1)
+//            System.out.println("2nd time ran successfully");
     }
     //    private void setPcin(InputStream pcin) {
 //        this.pcin = pcin;

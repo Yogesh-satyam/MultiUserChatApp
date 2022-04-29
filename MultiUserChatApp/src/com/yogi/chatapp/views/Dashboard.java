@@ -34,7 +34,8 @@ public class Dashboard extends JFrame {
         this.setVisible(false);
         this.dispose();
         JOptionPane.showMessageDialog(this, "You have been successfully logged out.");
-        UserScreen.main(new String[]{""});
+//        UserScreen.main(new String[]{""});
+        new UserScreen();
     }
 
     private void startChat() {
