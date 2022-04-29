@@ -52,7 +52,8 @@ public class ChangePassword extends JFrame {
     private void subitbtn() {
         changePwd();
         dispose();
-        UserScreen.main(new String[]{""});
+//        UserScreen.main(new String[]{""});
+        new UserScreen();
     }
 
     private void initComponents() {

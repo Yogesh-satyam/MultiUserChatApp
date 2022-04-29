@@ -25,9 +25,9 @@ public class UserScreen extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
-    public static void main(String[] args) {
-        new UserScreen();
-    }
+//    public static void main(String[] args) {
+//        new UserScreen();
+//    }
 
     UserDAO userDAO = new UserDAO();
 

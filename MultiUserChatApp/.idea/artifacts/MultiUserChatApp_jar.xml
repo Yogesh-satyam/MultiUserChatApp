@@ -2,7 +2,11 @@
   <artifact type="jar" build-on-make="true" name="MultiUserChatApp:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/MultiUserChatApp_jar</output-path>
     <root id="archive" name="MultiUserChatApp.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/src/resources/META-INF/MANIFEST.MF" />
+      </element>
       <element id="module-output" name="MultiUserChatApp" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../../../../Program Files/Java/jaco-mp3-player-0.9.3/jaco-mp3-player-0.9.3.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/../../../../../../Program Files/Java/mysql-connector-java-8.0.26/mysql-connector-java-8.0.26.jar" path-in-jar="/" />
     </root>
   </artifact>

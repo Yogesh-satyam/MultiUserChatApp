@@ -13,6 +13,8 @@ import com.yogi.chatapp.utils.UserInfo;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -31,7 +33,7 @@ public class PrivateChatScreen extends JFrame {
     public PrivateChatScreen(Client client, Thread privateChatThread, OutputStream pcout) {
         initComponents();
         setVisible(true);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         this.client = client;
         this.privateChatThread = privateChatThread;
         this.pcout = pcout;
@@ -54,12 +56,12 @@ public class PrivateChatScreen extends JFrame {
     public void quitChat() {
         if (!client.isInitiator()) {
             privateChatThread.interrupt();
+            privateChatThread.interrupt();
             //noinspection StatementWithEmptyBody,LoopConditionNotUpdatedInsideLoop
             while (!privateChatThread.isInterrupted()) {
 
             }
-            System.out.println("interupting server");
-
+//            System.out.println("interupting server");
         } else {
             try {
                 client.stopPCReader();
@@ -111,6 +113,12 @@ public class PrivateChatScreen extends JFrame {
         //======== this ========
         setTitle("GaapShap");
         setResizable(false);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                thisWindowClosing();
+            }
+        });
         var contentPane = getContentPane();
         contentPane.setLayout(null);
 
@@ -173,6 +181,10 @@ public class PrivateChatScreen extends JFrame {
         setSize(615, 430);
         setLocationRelativeTo(null);
         // JFormDesigner - End of component initialization  //GEN-END:initComponents
+    }
+
+    private void thisWindowClosing() {
+            quitChat();
     }
 
     public void disconnected(String senderName) {
